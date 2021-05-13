@@ -36,15 +36,59 @@
         });
 
         function showStar() {
+            // #star-box (static 김다미 정보) 삭제
+            $('#star-box').empty()
+
             $.ajax({
                 type: 'GET',
                 url: '/api/list',
                 data: {},
                 success: function (response) {
-                    if (response['result'] == 'success') {
-                        let msg = response['msg'];
-                        alert(msg);
+                    let stars = response['stars_list']
+                    for (let i = 0; i < stars.length; i++) {
+                        let star = stars[i]
+
+                        let img_url = star['img_url']
+                        let like = star['like']
+                        let name = star['name']
+                        let recent = star['recent']
+                        let url = star['url']
+
+                        let tempHtml = `<div class="card">
+                                        <div class="card-content">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <figure class="image is-48x48">
+                                                        <img
+                                                                src="${img_url}"
+                                                                alt="Placeholder image"
+                                                        />
+                                                    </figure>
+                                                </div>
+                                                <div class="media-content">
+                                                    <a href="${url}" target="_blank" class="star-name title is-4">${name} (좋아요: ${like})</a>
+                                                    <p class="subtitle is-6">${recent}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <footer class="card-footer">
+                                            <a href="#" onclick="likeStar('${name}')" class="card-footer-item has-text-info">
+                                                위로!
+                                                <span class="icon">
+                                              <i class="fas fa-thumbs-up"></i>
+                                            </span>
+                                            </a>
+                                            <a href="#" onclick="deleteStar('${name}')" class="card-footer-item has-text-danger">
+                                                삭제
+                                                <span class="icon">
+                                              <i class="fas fa-ban"></i>
+                                            </span>
+                                            </a>
+                                        </footer>
+                                    </div>`
+                        $('#star-box').append(tempHtml)
                     }
+
                 }
             });
         }
