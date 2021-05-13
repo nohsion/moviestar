@@ -115,7 +115,7 @@
                 data: {'name_give': name},
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        alert('삭제 완료! 안녕!')
+                        alert(name + ' 삭제 완료! 안녕!')
                         window.location.reload()
                     }
                 }
